@@ -163,7 +163,10 @@
             }
 
             showInfoContent() {
-                this.infoWindow = new google.maps.InfoWindow({content: this.createContentString()});
+                this.infoWindow = new google.maps.InfoWindow({
+                    content: this.createContentString(),
+                    maxWidth: 250
+                });
                 if (previousWindow) {
                     previousWindow.close();
                 }
