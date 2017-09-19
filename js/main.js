@@ -91,10 +91,10 @@
         Location = class Location {
 
             constructor(data) {
-                this.name = data.name;
-                this.lat = data.lat;
-                this.long = data.long;
-                this.id = data.id;
+                this.name = data.name || "";
+                this.lat = data.lat || "";
+                this.long = data.long || "";
+                this.id = data.id || "";
                 this.URL = "";
                 this.street = "";
                 this.city = "";
@@ -225,7 +225,9 @@
                     lng: []
                 };
 
-                initLocations.forEach((locationItem) => {
+                initLocations.filter((locationItem) => {
+                    return locationItem.lat && locationItem.long;
+                }).forEach((locationItem) => {
                     latList.push(locationItem.lat);
                     longList.push(locationItem.long);
                 });
