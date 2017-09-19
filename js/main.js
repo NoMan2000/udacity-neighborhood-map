@@ -7,6 +7,7 @@
         US_PHONE_LEN = 10,
         ERROR_BOX = doc.querySelector('#dangerBox'),
         MAP_DIV = doc.querySelector("#map"),
+        DATALIST = doc.querySelector('#searchLocations'),
         ANIMATION_TIMEOUT = 1400;
 
     let initLocations = [
@@ -216,8 +217,6 @@
 
                 this.locationList = ko.observableArray([]);
 
-                let dataList = doc.querySelector('#searchLocations');
-
                 let latList = [];
                 let longList = [];
                 let centered = {
@@ -242,7 +241,7 @@
                 initLocations.forEach((locationItem) => {
                     let option = doc.createElement('OPTION');
                     option.value = locationItem.name;
-                    dataList.appendChild(option);
+                    DATALIST.appendChild(option);
                     this.locationList.push(new Location(locationItem));
                 });
 

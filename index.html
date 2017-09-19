@@ -17,7 +17,9 @@
             </div>
             <section class="list" id="list">
                 <ul class="menu-list" id="results" data-bind="foreach: searchList">
-                    <li class="place"><a href="#" data-bind="text: name, click: animateEvent, attr: {'data-identifier': id}"></a></li>
+                    <li class="place"><a href="#"
+                                         data-bind="text: name, click: animateEvent, attr: {'data-identifier': id}"></a>
+                    </li>
                 </ul>
             </section>
 
@@ -45,7 +47,8 @@
     </section>
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js" integrity="sha256-aXHOBRCjmgqoEhY6VBWs3Bc+E3447Iuywezt+nkgeZk=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"
+        integrity="sha256-aXHOBRCjmgqoEhY6VBWs3Bc+E3447Iuywezt+nkgeZk=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"
         integrity="sha256-H9N9blVxqgLNhjZznl2m0R/VEIqFIT8CFHyLFGVRuns=" crossorigin="anonymous"></script>
 <script src="./js/main.js"></script>
