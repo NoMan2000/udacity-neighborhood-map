@@ -2,7 +2,7 @@
 const { app, BrowserWindow, dialog } = require('electron')
 
 const createWindow = (file) => {
-  let newWindow = new BrowserWindow({show: false, fullscreen: false, minWidth: 930, minHeight: 600})
+  let newWindow = new BrowserWindow({show: false, fullscreen: false, minWidth: 1024, minHeight: 600})
   newWindow.once('ready-to-show', (event) => {
     newWindow.show()
   })

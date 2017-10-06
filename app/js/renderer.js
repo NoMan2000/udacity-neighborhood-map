@@ -24,13 +24,22 @@ const findNewLocation = doc.querySelector('#findLocation')
 const locationResult = doc.querySelector('#locationResult')
 
 const ANIMATION_TIMEOUT = 1400
+const MIN_HEIGHT = 500
 
 let initLocations = []
+
+const setMapHeight = () => {
+  let offset = doc.querySelector('#list').offsetHeight
+  if (offset > MIN_HEIGHT) {
+    MAP_DIV.style.height = offset + 'px'
+  } else {
+    MAP_DIV.style.height = MIN_HEIGHT + 'px'
+  }
+}
 
 const initialize = () => {
   VIEW_MODEL = new AppViewModel()
   ko.applyBindings(VIEW_MODEL)
-  MAP_DIV.style.height = doc.querySelector('#list').offsetHeight + 'px'
 }
 
 db.all('SELECT p.id, p.identifier, p.lat, p.long, p.name FROM places AS p', (err, rows) => {
@@ -193,33 +202,14 @@ const AppViewModel = class AppViewModel {
   constructor () {
     this.searchTerm = ko.observable('')
 
-    let latList = []
-    let longList = []
-    let centered = {
-      lat: [],
-      lng: []
-    }
-
-    initLocations.filter((locationItem) => {
-      return locationItem.lat && locationItem.long
-    }).forEach((locationItem) => {
-      latList.push(locationItem.lat)
-      longList.push(locationItem.long)
-    })
-    centered.lat = AppViewModel.average(latList)
-    centered.lng = AppViewModel.average(longList)
+    let centered = AppViewModel.getCenter(initLocations)
 
     map = new google.maps.Map(MAP_DIV, {
       zoom: 11,
       center: centered
     })
     this.createLocations()
-    let bounds = new google.maps.LatLngBounds()
-
-    this.locationList().forEach((locationItem) => {
-      bounds.extend(locationItem.marker.getPosition())
-    })
-    map.fitBounds(bounds)
+    this.resetBounds()
 
     this.searchList = ko.computed(() => {
       let filter = this.searchTerm().toLocaleLowerCase()
@@ -237,6 +227,34 @@ const AppViewModel = class AppViewModel {
         })
       }
     })
+  }
+
+  resetBounds () {
+    let bounds = new google.maps.LatLngBounds()
+
+    this.locationList().forEach((locationItem) => {
+      bounds.extend(locationItem.marker.getPosition())
+    })
+    map.fitBounds(bounds)
+    google.maps.event.trigger(map, 'resize')
+  }
+
+  static getCenter (initLocations) {
+    let latList = []
+    let longList = []
+    let centered = {
+      lat: [],
+      lng: []
+    }
+    initLocations.filter((locationItem) => {
+      return locationItem.lat && locationItem.long
+    }).forEach((locationItem) => {
+      latList.push(locationItem.lat)
+      longList.push(locationItem.long)
+    })
+    centered.lat = AppViewModel.average(latList)
+    centered.lng = AppViewModel.average(longList)
+    return centered
   }
 
   createLocations () {
@@ -288,7 +306,16 @@ DELETE_BUTTON.addEventListener('click', (evt) => {
           })
           VIEW_MODEL.locationList.remove((el) => {
             return el.id === id
+          }).forEach((location) => {
+            if (location.marker === previous) {
+              Location.removeActive()
+            }
+            location.visible(false)
           })
+          let center = AppViewModel.getCenter(VIEW_MODEL.locationList())
+          map.setCenter(center)
+          VIEW_MODEL.resetBounds()
+          setMapHeight()
           closeModalFunc()
         })
       } else {
@@ -328,6 +355,10 @@ const addNewLocationFunc = (evt) => {
     initLocations.push(item)
     VIEW_MODEL.appendDataList(item)
     VIEW_MODEL.locationList.push(new Location(item))
+    let center = AppViewModel.getCenter(VIEW_MODEL.locationList())
+    map.setCenter(center)
+    VIEW_MODEL.resetBounds()
+    setMapHeight()
   })
 }
 
