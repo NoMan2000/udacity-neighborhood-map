@@ -1,0 +1,43 @@
+{
+  "name": "neighborhoodmap",
+  "version": "1.0.0",
+  "description": "Neighborhood Map with Electron",
+  "main": "app/electron.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "electron-builder install-app-deps",
+    "copy": "cp node_modules/bulma/css/bulma.css app/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoMan2000/udacity-neighborhood-map.git"
+  },
+  "keywords": [
+    "electron",
+    "knockoutjs",
+    "google",
+    "maps"
+  ],
+  "author": "Michael Soileau <webart.video@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoMan2000/udacity-neighborhood-map/issues"
+  },
+  "homepage": "https://github.com/NoMan2000/udacity-neighborhood-map#readme",
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^1.4.6",
+    "electron-builder": "^19.34.1",
+    "electron-packager": "^9.1.0",
+    "standard": "^10.0.3",
+    "yarn": "^1.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bulma": "^0.5.3",
+    "knockout": "^3.4.2",
+    "lodash": "^4.17.4",
+    "sqlite3": "^3.1.13"
+  }
+}

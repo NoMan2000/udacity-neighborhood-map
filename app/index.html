@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<main>
+    <section>
+        <h3 class="title is-text-centered p-2">Maps Reno</h3>
+    </section>
+    <section class="container columns">
+        <nav class="menu column pl-2" id="locationList">
+            <div class="menu-label">
+                Locations:
+            </div>
+            <section class="list" id="list">
+                <ul class="menu-list" id="results" data-bind="foreach: searchList">
+                    <li class="place">
+                        <a href="#" class="truncate"
+                           data-bind="text: name, click: animateEvent, attr: {'data-identifier': identifier}">
+                        </a>
+                        <a href="#" data-bind="click: showDialog" class="delete button is-danger is-pulled-right"></a>
+
+                    </li>
+                </ul>
+            </section>
+
+        </nav>
+
+
+        <div id="app" class="column">
+            <div class="notification is-danger is-hidden" id="dangerBox">
+
+            </div>
+            <label class="search control" id="search" for="search-box">
+                <input class="search-box input" id="search-box"
+                       placeholder="search"
+                       list="searchLocations"
+                       data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'"/>
+                <datalist id="searchLocations">
+                </datalist>
+            </label>
+
+            <div class="map" id="map">If you can read this, there has been an error loading Google Maps. Please Try
+                Again.
+            </div>
+        </div>
+    </section>
+    <section class="columns container">
+        <form id="addNewLocation" method="post" action="#" class="column pl-2">
+            <div class="field has-addons">
+                <label for="findLocation" class="search control w-100">
+                    <input type="search"
+                           placeholder="search location"
+                           class="search-box input" id="findLocation">
+                </label>
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        Save
+                    </button>
+                </div>
+            </div>
+
+        </form>
+        <div class="column">
+            <h3>Coordinate Results</h3>
+            <div id="locationResult"></div>
+        </div>
+    </section>
+    <div class="modal" id="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content" id="modalMessage">
+
+                        </div>
+                    </div>
+                </article>
+                <div class="field is-grouped is-grouped-right">
+                    <p class="control">
+                        <a class="button is-danger" id="deleteButton">
+                            Yes
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-light" id="cancelButton">
+                            Cancel
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" id="closeModal" aria-label="close"></button>
+    </div>
+</main>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDELKAzPsk5Oh3Plrf5RajD3slkTQBU9dM"></script>
+<script>
+  require('./js/renderer.js')
+</script>
+</body>
+</html>
