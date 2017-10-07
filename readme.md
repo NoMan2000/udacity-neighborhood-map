@@ -9,6 +9,9 @@ Electron, sqlite, KnockoutJS, Google maps, and foursquare to store data endpoint
 
 This app requires [Node](https://nodejs.org/en/).  Go to the website and install it.
 
+If the gigantic badge above is not a big enough clue, this project uses [Standard JS](https://standardjs.com/).  
+To download it, type `npm install standard --global`.  Then run `standard`.  No errors.
+
 You will also need to have the developer dependencies necessary to build sqlite with node-gyp.  
 To make sure that you do [Go to the website](https://github.com/nodejs/node-gyp#installation), search for your operating system,
 and follow the instructions.
