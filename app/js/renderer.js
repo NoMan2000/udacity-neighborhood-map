@@ -98,7 +98,11 @@ const Location = class Location {
       this.phone = results.contact.phone || ''
       this.formattedPhone = formatPhone(this.phone)
     }).catch((err) => {
-      let currentErr = err.responseJSON.meta
+      let currentErr = err
+      let otherErr = currentErr.responseJSON
+      if (otherErr) {
+        currentErr = otherErr.meta
+      }
       Object.values(currentErr).forEach(errorHandler)
     })
     this.latLng = new google.maps.LatLng(data.lat, data.long)
@@ -285,6 +289,13 @@ closeModalTrigger.addEventListener('click', closeModalFunc)
 CANCEL_BUTTON.removeEventListener('click', closeModalFunc)
 CANCEL_BUTTON.addEventListener('click', closeModalFunc)
 
+const resetMapAndMarkers = function () {
+  let center = AppViewModel.getCenter(VIEW_MODEL.locationList())
+  map.setCenter(center)
+  VIEW_MODEL.resetBounds()
+  setMapHeight()
+}
+
 DELETE_BUTTON.addEventListener('click', (evt) => {
   let id = Number(modal.id)
   db.each(`SELECT p.id, p.identifier, p.lat, p.long, p.name FROM places AS p WHERE id = ${id}`,
@@ -312,10 +323,7 @@ DELETE_BUTTON.addEventListener('click', (evt) => {
             }
             location.visible(false)
           })
-          let center = AppViewModel.getCenter(VIEW_MODEL.locationList())
-          map.setCenter(center)
-          VIEW_MODEL.resetBounds()
-          setMapHeight()
+          resetMapAndMarkers()
           closeModalFunc()
         })
       } else {
@@ -355,10 +363,7 @@ const addNewLocationFunc = (evt) => {
     initLocations.push(item)
     VIEW_MODEL.appendDataList(item)
     VIEW_MODEL.locationList.push(new Location(item))
-    let center = AppViewModel.getCenter(VIEW_MODEL.locationList())
-    map.setCenter(center)
-    VIEW_MODEL.resetBounds()
-    setMapHeight()
+    resetMapAndMarkers()
   })
 }
 

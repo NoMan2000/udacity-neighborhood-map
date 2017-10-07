@@ -3,11 +3,82 @@
   "version": "1.0.0",
   "description": "Neighborhood Map with Electron",
   "main": "app/electron.js",
+  "build": {
+    "appId": "com.example.mapfinder",
+    "productName": "neighborhoodmap",
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "udacity-neighborhood-map",
+        "owner": "NoMan2000"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "identity": null,
+      "target": [
+        "dmg"
+      ],
+      "icon": "app/icons/neighborhoodmap.icns"
+    },
+    "linux": {
+      "category": "Utils",
+      "icon": "app/icons/neighborhoodmap/imessenger",
+      "packageCategory": "utils",
+      "maintainer": "Michael Soileau <webart.video@gmail.com>",
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage",
+        "snap"
+      ],
+      "synopsis": "A place to locally store your favorite locations"
+    },
+    "deb": {},
+    "rpm": {},
+    "snap": {
+      "confinement": "strict",
+      "grade": "stable",
+      "plugs": [
+        "default"
+      ]
+    },
+    "dmg": {
+      "background": "app/icons/neighborhoodmap/ios/background.tiff",
+      "icon": "app/icons/neighborhoodmap.icns",
+      "iconSize": 100,
+      "window": {
+        "width": 544,
+        "height": 408
+      },
+      "contents": [
+        {
+          "x": 145,
+          "y": 257
+        },
+        {
+          "x": 400,
+          "y": 255,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/electron .",
+    "test": "./node_modules/mocha/bin/mocha tests/*Test.js",
+    "tests": "npm test",
     "postinstall": "electron-builder install-app-deps",
-    "copy": "cp node_modules/bulma/css/bulma.css app/css"
+    "sqlite3install": "npm install https://github.com/mapbox/node-sqlite3/tarball/master",
+    "pack": "build --dir",
+    "dist": "build",
+    "buildall": "build -mwl",
+    "copy": "cp node_modules/bulma/css/bulma.css app/css",
+    "createicons": "./node_modules/.bin/png2icons ./app/icons/neighborhoodmap/raw_images/neighborhoodmap.png ./app/icons/neighborhoodmap -allp -bc -i",
+    "createBackground": "tiffutil -cathidpicheck iTunesArtwork@1x.png iTunesArtwork@2x.png -out background.tiff",
+    "compile": "webpack",
+    "production": "npm install --production"
   },
   "repository": {
     "type": "git",
@@ -26,16 +97,25 @@
   },
   "homepage": "https://github.com/NoMan2000/udacity-neighborhood-map#readme",
   "devDependencies": {
+    "babili-webpack-plugin": "^0.1.2",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "devtron": "^1.4.0",
-    "electron": "^1.4.6",
-    "electron-builder": "^19.34.1",
+    "electron-mocha": "^4.0.3",
     "electron-packager": "^9.1.0",
+    "g": "^2.0.1",
+    "mocha": "^4.0.1",
+    "png2icons": "^0.9.1",
+    "spectron": "^3.7.2",
     "standard": "^10.0.3",
+    "webpack": "^3.6.0",
     "yarn": "^1.1.0"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "bulma": "^0.5.3",
+    "electron": "^1.8.1",
+    "electron-builder": "^19.34.2",
     "knockout": "^3.4.2",
     "lodash": "^4.17.4",
     "sqlite3": "^3.1.13"

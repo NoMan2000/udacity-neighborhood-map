@@ -1,8 +1,20 @@
 'use strict'
 const { app, BrowserWindow, dialog } = require('electron')
 
+const iconPath = `${__dirname}/icons/neighborhoodmap/raw_images/neighborhoodmap.png`
+
 const createWindow = (file) => {
-  let newWindow = new BrowserWindow({show: false, fullscreen: false, minWidth: 1024, minHeight: 600})
+  let newWindow = new BrowserWindow({
+    show: false,
+    fullscreen: false,
+    minWidth: 1024,
+    minHeight: 600,
+    width: 1024,
+    height: 600,
+    title: 'Location Storage',
+    icon: iconPath
+  })
+  console.log(iconPath)
   newWindow.once('ready-to-show', (event) => {
     newWindow.show()
   })
